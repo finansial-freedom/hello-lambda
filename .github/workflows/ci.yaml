@@ -29,5 +29,8 @@ jobs:
         run: docker buildx build --platform linux/amd64 --provenance=false -t devops/hello-lambda:test app/
 
       - name: Test Lambda handler imports - hello-lambda
+        env:
+          AWS_REGION: us-west-2
+          AWS_DEFAULT_REGION: us-west-2
         run: |
           docker run --rm --entrypoint python devops/hello-lambda:test -c "import app; print('hello-lambda handler OK')"
