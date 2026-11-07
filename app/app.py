@@ -2,7 +2,6 @@ import json
 
 
 def handler(event, context):
-    debug=False
 
     return {
         "statusCode": 200,
