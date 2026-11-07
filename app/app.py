@@ -13,8 +13,8 @@ def handler(event, context):
     )
     print(response)
     secret_string = json.loads(response['SecretString'])
-    owner = response['SecretString']['owner']
-    env = response['SecretString']['env']
+    owner = secret_string['owner']
+    env = secret_string['env']
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
