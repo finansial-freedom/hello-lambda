@@ -12,14 +12,15 @@ def handler(event, context):
         SecretId=secret_name
     )
     print(response)
-    print(json.dumps(response))
+    owner = response['SecretString']['owner']
+    env = response['SecretString']['env']
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
         "body": json.dumps({
             "message_lambda": "Hello World from Ivan!",
             "message": "Hardcoded message",
-            "owner": "Hardcoded",
-            "env": "Hardcoded",
+            "owner": owner,
+            "env": env,
         }),
     }
