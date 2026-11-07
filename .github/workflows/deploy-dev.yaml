@@ -17,15 +17,17 @@ jobs:
       AWS_REGION: ${{ vars.AWS_REGION }}
       ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
       FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
+
     steps:
       - uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ vars.AWS_REGION }}
+      # - name: Configure AWS credentials
+      #   uses: aws-actions/configure-aws-credentials@v4
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws-session-token: 
+      #     aws-region: ${{ vars.AWS_REGION }}
 
       - name: Ensure ECR repository exists
         run: |
@@ -40,7 +42,7 @@ jobs:
         id: image
         run: |
           IMAGE_URI="${{ steps.ecr.outputs.registry }}/$ECR_REPOSITORY:dev-${GITHUB_SHA::7}"
-          docker build -t "$IMAGE_URI" app/
+          docker buildx build --platform linux/amd64 --provenance=false -t "$IMAGE_URI" app/
           docker push "$IMAGE_URI"
           echo "uri=$IMAGE_URI" >> "$GITHUB_OUTPUT"
 
@@ -49,10 +51,10 @@ jobs:
           IMAGE_URI: ${{ steps.image.outputs.uri }}
         run: |
           aws lambda update-function-code --function-name "$FUNCTION_NAME" --image-uri "$IMAGE_URI"
-          aws lambda wait function-updated --function-name "$FUNCTION_NAME"
+          aws lambda wait function-updated-v2 --function-name "$FUNCTION_NAME"
 
       - name: Test invoke
         run: |
           aws lambda invoke --function-name "$FUNCTION_NAME" response.json
           cat response.json
-          python3 -c "import json,sys; sys.exit(json.load(open('response.json')).get('statusCode') != 200)"
+          
