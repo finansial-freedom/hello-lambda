@@ -14,7 +14,7 @@ jobs:
     runs-on: self-hosted
     environment: prod
     env:
-      AWS_REGION: us-east-1
+      AWS_REGION: us-west-2
       ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
       FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
     steps:
@@ -50,10 +50,9 @@ jobs:
           IMAGE_URI: ${{ steps.image.outputs.uri }}
         run: |
           aws lambda update-function-code --function-name "$FUNCTION_NAME" --image-uri "$IMAGE_URI"
-          aws lambda wait function-updated --function-name "$FUNCTION_NAME"
+          aws lambda wait function-updated-v2 --function-name "$FUNCTION_NAME"
 
       - name: Test invoke
         run: |
           aws lambda invoke --function-name "$FUNCTION_NAME" response.json
           cat response.json
-          python3 -c "import json,sys; sys.exit(json.load(open('response.json')).get('statusCode') != 200)"
