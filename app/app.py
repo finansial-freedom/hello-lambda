@@ -5,6 +5,7 @@ import boto3
 secret_name = os.environ.get('SECRET_NAME', '')
 client_secretsmanager = boto3.client('secretsmanager')
 
+
 def handler(event, context):
     print(json.dumps(event))
     response = client_secretsmanager.get_secret_value(
