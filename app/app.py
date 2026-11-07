@@ -1,9 +1,8 @@
 import json
-import sys
 
 
 def handler(event, context):
-    debug=True
+    debug=False
 
     return {
         "statusCode": 200,
