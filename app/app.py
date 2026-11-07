@@ -12,6 +12,7 @@ def handler(event, context):
         SecretId=secret_name
     )
     print(response)
+    secret_string = json.loads(response['SecretString'])
     owner = response['SecretString']['owner']
     env = response['SecretString']['env']
     return {
