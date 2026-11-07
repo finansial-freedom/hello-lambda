@@ -12,8 +12,7 @@ jobs:
       AWS_REGION: us-west-2
     steps:
       - name: Checkout code
-        uses: actions/checkout@v99
-
+        uses: actions/checkout@v6.1.0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
