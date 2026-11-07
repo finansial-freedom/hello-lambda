@@ -10,6 +10,7 @@ jobs:
     runs-on: self-hosted
     env:
       AWS_REGION: us-west-2
+      AWS_DEFAULT_REGION: us-west-2
     steps:
       - name: Checkout code
         uses: actions/checkout@v6.1.0
@@ -29,4 +30,4 @@ jobs:
 
       - name: Test Lambda handler imports - hello-lambda
         run: |
-          docker run --region us-west-2 --rm --entrypoint python devops/hello-lambda:test -c "import app; print('hello-lambda handler OK')"
+          docker run --rm --entrypoint python devops/hello-lambda:test -c "import app; print('hello-lambda handler OK')"
