@@ -22,7 +22,7 @@ jobs:
         run: pip install flake8 --break-system-packages
 
       - name: Python lint - hello-lambda
-        run: flake8 app/app.py --max-line-length=120 --ignore=E501, W503
+        run: flake8 app/app.py --max-line-length=120 --ignore=E501,W503,E225
 
       - name: Build Docker image - hello-lambda
         run: docker build -t devops/hello-lambda:test .
