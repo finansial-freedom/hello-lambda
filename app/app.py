@@ -12,8 +12,9 @@ def handler(event, context):
         SecretId=secret_name
     )
     print(response)
-    owner = response['SecretString']['owner']
-    env = response['SecretString']['env']
+    secret_string = json.loads(response['SecretString'])
+    owner = secret_string['owner']
+    env = secret_string['env']
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},

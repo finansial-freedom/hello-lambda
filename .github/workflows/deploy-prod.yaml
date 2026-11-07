@@ -16,7 +16,7 @@ jobs:
     env:
       AWS_REGION: us-east-1
       ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
-      FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION }}
+      FUNCTION_NAME: ${{ vars.LAMBDA_FUNCTION_NAME }}
     steps:
       - uses: actions/checkout@v4
 
