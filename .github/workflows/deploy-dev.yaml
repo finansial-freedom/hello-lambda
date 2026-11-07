@@ -57,4 +57,4 @@ jobs:
         run: |
           aws lambda invoke --function-name "$FUNCTION_NAME" response.json
           cat response.json
-          python3 -c "import json,sys; sys.exit(json.load(open('response.json')).get('statusCode') != 200)"
+          

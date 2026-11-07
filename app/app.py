@@ -19,7 +19,7 @@ def handler(event, context):
         "body": json.dumps({
             "message_lambda": "Hello World from Ivan!",
             "message": "Hardcoded message",
-            "owner": "",
-            "env": "",
+            "owner": "Hardcoded",
+            "env": "Hardcoded",
         }),
     }
