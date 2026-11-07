@@ -1,15 +1,24 @@
 import json
+import os
+import boto3
 
+secret_name = os.environ.get('SECRET_NAME', '')
+client_secretsmanager = boto3.client('secretsmanager')
 
 def handler(event, context):
-
+    print(json.dumps(event))
+    response = client_secretsmanager.get_secret_value(
+        SecretId=secret_name
+    )
+    print(response)
+    print(json.dumps(response))
     return {
         "statusCode": 200,
         "headers": {"Content-Type": "application/json"},
         "body": json.dumps({
             "message_lambda": "Hello World from Ivan!",
             "message": "Hardcoded message",
-            "owner": "Hardcoded owner",
-            "env": "hardcoded",
+            "owner": "",
+            "env": "",
         }),
     }
